@@ -39,7 +39,7 @@
 			/* BODY */
 			
 			.fixed-page{
-				height: calc(100vh - 52px);
+				height: calc(100vh);
 			}
 			
 			.full-page{
@@ -78,10 +78,6 @@
 				text-overflow: ellipsis;
 			} 
 			
-			#inputTimeT1, #inputTimeT2{
-				width: 49.0%;
-				display: inline;
-			}
 			
 			#inputRange::-ms-fill-lower{
 				background-color: #fd6868;
@@ -127,6 +123,11 @@
 			.test h4{
 				color: #fff;
 			}
+			
+			#apply-filter-div, .announce-counter{
+				margin-left: 10px;
+				margin-right: 10px;
+			}
 			/* BODY */
 			
 			/* MAP */
@@ -143,28 +144,34 @@
 	</head>
 	<body>
 		
-		<?php include("navbar.html") ?>
 			
 		<div class="container-fluid fixed-page">
 		
 			<div class="row full-page">
-				<div id="map-canvas" class="col-sm-5"></div>
-				<div id="search-results" class="col-sm-7">
+				<div id="map-canvas" class="col-sm-8"></div>
+				<div id="search-results" class="col-sm-4">
 
 					<div id="search-options">
+						<h4>Fechas</h4>
 						<form class="form-horizontal">
 							<div class="form-group">
-								<label for="inputTimeT1" class="col-sm-4 control-label">Fechas</label>
+								<label for="fromDate" class="col-sm-4 control-label">Desde</label>
 								<div class="col-sm-6">
-									<input type="text" class="form-control" id="inputTimeT1" placeholder="Entre las">
-									<input type="text" class="form-control" id="inputTimeT2" placeholder="Y Las">
+									<input type="text" class="form-control" id="fromDate" placeholder="Entre las">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="toDate" class="col-sm-4 control-label">Hasta</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" id="toDate" placeholder="Entre las">
 								</div>
 							</div>
 							
 							<hr class="separator">
 							
+							<h4>Magnitud</h4>
 							<div class="form-group">
-								<label for="inputRange" class="col-sm-4 control-label" id="rangeLabel">Rango de Precio</label>
+								<label for="inputRange" class="col-sm-4 control-label" id="rangeLabel">Magnitud</label>
 								<div class="col-sm-6 text-right">
 									<input type="range" min="1000" max="100000" step="1000" value="50000" id="inputRange">
 									<sub id="range-value">$50000</sub>
@@ -256,21 +263,21 @@
 								<button class="btn btn-danger btn-block less-filters-btn" type="button">Menos Filtros</button>
 									
 							</div>
+							
+							
 						</form>
 					</div>
 					
 					<hr class="full-separator">
 					
 					<div class="announce-counter">
-						<div class="col-sm-6 text-left">
-							<button class="btn btn-default more-filters-btn">Más Filtros</button>
-						</div>
-						<div class="col-sm-6 text-right">
-							60 Canchas, Santiago de Chile
-						</div>
+							<button class="btn btn-primary more-filters-btn btn-block">Más Filtros</button>
 					</div>
 					
-					<div id="announces" class="row"></div>
+					<hr class="separator">
+					<div id="apply-filter-div">
+						<button class="btn btn-success btn-block" type="button">Aplicar Filtros</button>
+					</div>
 					
 
 				</div>
@@ -326,15 +333,6 @@
 				$(".announce-counter").slideToggle();
 				$(".more-filters").slideToggle()
 			});
-			
-			//For para testear
-			for(i = 1; i < 7; i++){
-				var bg = "background-image: url(img/stadiums-test/stadium_"+i+".jpg)";
-				var st = "style='"+bg+"'";
-				var inner = "<div class='t'><h4>$20,000 <small>Por Hora</small></h4><h4>Cancha X</h4></div>"
-				$("#announces").append("<div class='test col-sm-6' "+st+">"+inner+"</div>");
-				console.log(i);
-			}
 			
 		</script>
 	</body>
