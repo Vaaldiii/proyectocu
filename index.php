@@ -292,6 +292,7 @@
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
 		<script type="text/javascript" src="datetimepicker/jquery.datetimepicker.js"></script>
 		<script type="text/javascript" src="js/geolocation.js"></script>
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6pMpJjSW_OVXreXlA0vJ3pNfzH3lvpYs&signed_in=true&callback=initMap"></script>
 		<script>
 			//Iniciar Timepickers
 			$('#inputTimeT1').datetimepicker({

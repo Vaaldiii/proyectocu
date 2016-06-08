@@ -1,57 +1,43 @@
 var map;
 
-function initialize() {
-	var mapOptions = {
-		zoom: 12,
-		scrollwheel: false
-	};
-	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-	// Try HTML5 geolocation
-	if(navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(function(position) {
-			var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-			
-			var marker = new google.maps.Marker({
-				map:map,
-				draggable:false,
-				animation: google.maps.Animation.DROP,
-				position: pos
-			});
-			
-			/*
-			var infowindow = new google.maps.InfoWindow({
-				map: map,
-				position: pos,
-				content: 'Location found using HTML5.'
-			});
-			*/
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map-canvas'), {
+    center: { lat: 20, lng: -360 },
+    zoom: 0.5
+  });
 
-			map.setCenter(pos);
-		}, function() {
-			handleNoGeolocation(true);
-		});
-	} else {
-		// Browser doesn't support Geolocation
-		handleNoGeolocation(false);
-	}
+  map.setOptions({ 
+    minZoom: 3,
+    maxZoom: 10 
+  });
+
+  // Get the earthquake data (JSONP format)
+  // This feed is a copy from the USGS feed, you can find the originals here:
+  //   http://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
+  var script = document.createElement('script');
+  script.setAttribute('src',
+      'https://storage.googleapis.com/maps-devrel/quakes.geo.json');
+  document.getElementsByTagName('head')[0].appendChild(script);
+
+
+  // Add a basic style.
+  map.data.setStyle(function(feature) {
+    var mag = Math.exp(parseFloat(feature.getProperty('mag'))) * 0.1;
+    return /** @type {google.maps.Data.StyleOptions} */({
+      icon: {
+        path: google.maps.SymbolPath.CIRCLE,
+        scale: mag,
+        fillColor: '#f00',
+        fillOpacity: 0.35,
+        strokeWeight: 0
+      }
+    });
+  });
 }
 
-function handleNoGeolocation(errorFlag) {
-	if (errorFlag) {
-		var content = 'Error: El servicio de Geolocalización a fallado.';
-	} else {
-		var content = 'Error: Su navegador no soporta Geolocalización.';
-	}
-
-	var options = {
-		map: map,
-		position: new google.maps.LatLng(60, 105),
-		content: content
-	};
-
-	var infowindow = new google.maps.InfoWindow(options);
-	map.setCenter(options.position);
+// Defines the callback function referenced in the jsonp file.
+function eqfeed_callback(data) {
+  map.data.addGeoJson(data);
 }
-
-google.maps.event.addDomListener(window, 'load', initialize);
+    
