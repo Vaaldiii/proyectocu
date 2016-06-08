@@ -1,0 +1,32 @@
+.navbar{
+	margin-bottom: 0px;
+}
+
+.brand-custom{
+	color: #000000 !important;
+	text-decoration: none !important;
+	font-family: 'Pompiere', cursive;
+	font-size: 26px;
+	font-weight: 200;
+}
+
+.navbar-form{
+
+}
+
+#inputSearch{
+	width: 230px;
+}
+
+.user-picture{
+	display: inline !important;
+}
+
+.btn-danger{
+	background-color: #FF4F54;
+	background-image: none;
+	background-repeat: repeat-x;
+	border-color: #b92c28;
+}
+
+
