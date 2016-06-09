@@ -194,34 +194,33 @@
 							
 							<h4>Magnitud</h4>
 							<div class="form-group">
-								<div class="col-sm-8 text-right">
+								<div class="col-sm-8 col-sm-offset-2">
  									<input type="text" id="amount" readonly style="border:0; font-weight:bold;">
  									<div id="slider-range"></div>
 								</div>
 							</div>
-							
-							<!-- <div class="more-filters"> -->
+							<br>
+							<div class="more-filters">
 								
-								<hr class="separator">
+								<div class="form-group">
 									
-									<!-- <label class="col-sm-4 control-label" id="sizeLabel">Provocó Tsunami</label> -->
-									<h4>Provocó Tsunami</h4>
+									<label class="col-sm-4 control-label">Provocó Tsunami</label>
 									<div class="col-sm-8 checkbox-filter">
-										<div class="col-sm-6">
+										<div class="col-sm-3">
 											<label class="checkbox-inline">
-												<input type="checkbox" id="sizeCheckbox1" value="option1"> Sí
+												<input type="checkbox" id="tsunamiYes" name="tsunamiCheckbox" value="option1"> Si
 											</label>
 										</div>
 										
-										<div class="col-sm-6">
+										<div class="col-sm-3">
 											<label class="checkbox-inline">
-												<input type="checkbox" id="sizeCheckbox2" value="option1"> No
+												<input type="checkbox" id="tsunamiNo" name="tsunamiCheckbox" value="option1"> No
 											</label>
 										</div>
+									</div>
 									
 								</div>
-
-					<!-- 			<hr class="full-separator">
+								<br />
 								
 								<button class="btn btn-danger btn-block less-filters-btn" type="button">Menos Filtros</button>
 									
@@ -229,17 +228,18 @@
 							
 							
 						</form>
+						<br />
 					</div>
 					
 					<hr class="full-separator">
 					
 					<div class="announce-counter">
 							<button class="btn btn-primary more-filters-btn btn-block">Más Filtros</button>
-					</div> -->
+					</div>
 					
 					<hr class="full-separator">
 					<div id="apply-filter-div">
-						<button class="btn btn-success btn-block" type="button">Aplicar Filtros</button>
+						<button class="btn btn-success btn-block" id="apply-filter-btn" type="button">Aplicar Filtros</button>
 					</div>
 					
 
@@ -260,36 +260,59 @@
 		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6pMpJjSW_OVXreXlA0vJ3pNfzH3lvpYs&signed_in=true&callback=initMap"></script>
 
 		<script>
-			//Iniciar Timepickers
-			$('#fromDate').datetimepicker({
-		      pickTime: false
-		    });
-
-		    $('#toDate').datetimepicker({
-		      pickTime: false
-		    });
-			
-			//Cambiar value del Range
-			$(function() {
-				$( "#slider-range" ).slider({
-				range: true,
-				min: 0,
-				max: 10,
-				values: [ 0, 10 ],
-				step: 0.1,
-				slide: function( event, ui ) {
-					$( "#amount" ).val( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-					}
+			$(function(){			
+				//Iniciar Timepickers
+				$('#fromDate').datetimepicker({
+			      pickTime: false
+			    });
+	
+			    $('#toDate').datetimepicker({
+			      pickTime: false
+			    });
+				
+				//Cambiar value del Range
+				$(function() {
+					$( "#slider-range" ).slider({
+					range: true,
+					min: 0,
+					max: 10,
+					values: [ 0, 10 ],
+					step: 0.1,
+					slide: function( event, ui ) {
+						$( "#amount" ).val( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+						}
+					});
+					$( "#amount" ).val( "" + $( "#slider-range" ).slider( "values", 0 ) +
+					" - " + $( "#slider-range" ).slider( "values", 1 ) );
 				});
-				$( "#amount" ).val( "" + $( "#slider-range" ).slider( "values", 0 ) +
-				" - " + $( "#slider-range" ).slider( "values", 1 ) );
+				
+				//Slide de Filtros
+				$(".more-filters-btn, .less-filters-btn").click(function(){
+				 	$(".announce-counter").slideToggle();
+				 	$(".more-filters").slideToggle()
+				});
+				
+				$("#apply-filter-btn").click(function(){
+					var fromDate = $('#fromDate').val();
+					var toDate = $('#toDate').val();
+					var min = $( "#slider-range" ).slider( "values", 0 );
+					var max = $( "#slider-range" ).slider( "values", 1 );
+					
+					var request = $.ajax({
+					  url: "eq.php",
+					  data: {
+						  minmag: min,
+						  maxmag: max
+					  },
+					  dataType: "json"
+					});
+					 
+					request.done(function( data ) {
+						
+					});
+				});
+				
 			});
-			
-			//Slide de Filtros
-			// $(".more-filters-btn, .less-filters-btn").click(function(){
-			// 	$(".announce-counter").slideToggle();
-			// 	$(".more-filters").slideToggle()
-			// });
 			
 		</script>
 	</body>

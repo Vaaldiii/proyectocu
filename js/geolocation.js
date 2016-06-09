@@ -1,4 +1,6 @@
 var map;
+var markers = [];
+
 
 
 function initMap() {
@@ -16,8 +18,7 @@ function initMap() {
   // This feed is a copy from the USGS feed, you can find the originals here:
   //   http://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
   var script = document.createElement('script');
-  script.setAttribute('src',
-      'https://storage.googleapis.com/maps-devrel/quakes.geo.json');
+  script.setAttribute('src','https://storage.googleapis.com/maps-devrel/quakes.geo.json');
   document.getElementsByTagName('head')[0].appendChild(script);
 
 
@@ -40,4 +41,22 @@ function initMap() {
 function eqfeed_callback(data) {
   map.data.addGeoJson(data);
 }
+
+// Delete all Markers
+
+function clearMap(){
+	map.data.forEach(function (feature) {
+    	map.data.remove(feature);
+	});
+}
     
+function addMarkers(data){
+	var myLatLng;
+	foreach(earthquake in data){
+		myLatLng = {lat: data[earthquake]['lat'], lng: data[earthquake]['lng']};
+		var marker = new google.maps.Marker({
+	    position: myLatLng,
+	    map: map,
+		}
+  });
+}
