@@ -8,6 +8,7 @@
 		<link rel="stylesheet" href="bootstrap-3.3.2/css/bootstrap-theme.min.css">
 		<link rel="stylesheet" href="datetimepicker/jquery.datetimepicker.css">
 		<link rel="stylesheet" href="css/navbar.css">
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 		<style>
 			.container-fluid{
 				padding-left: 0px;
@@ -135,12 +136,34 @@
 			#map-canvas{
 				height: 100%;
 			}
+
+			.ui-slider{
+				height: 4px;
+			}
+
+			.ui-slider-handle{
+				width: 20px;
+				height: 20px;
+				background: #fff;
+				-moz-border-radius: 50px;
+				-webkit-border-radius: 50px;
+				border-radius: 50px;
+				border: 1px solid #aaa;
+				box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+			}
+
+			.ui-widget-header{
+				background: none;
+				background-color: #ff5a5f;
+
+			}
+
 			
 			/* MAP */
 			
 
 		</style>
-		<title>Canchas | ProLeague</title>
+		<title>Terremotos</title>
 	</head>
 	<body>
 		
@@ -171,94 +194,34 @@
 							
 							<h4>Magnitud</h4>
 							<div class="form-group">
-								<label for="inputRange" class="col-sm-4 control-label" id="rangeLabel">Magnitud</label>
-								<div class="col-sm-6 text-right">
-									<input type="range" min="1000" max="100000" step="1000" value="50000" id="inputRange">
-									<sub id="range-value">$50000</sub>
+								<div class="col-sm-8 text-right">
+ 									<input type="text" id="amount" readonly style="border:0; font-weight:bold;">
+ 									<div id="slider-range"></div>
 								</div>
 							</div>
 							
-							<div class="more-filters">
+							<!-- <div class="more-filters"> -->
 								
 								<hr class="separator">
-								
-								<div class="form-group">
 									
-									<label class="col-sm-4 control-label" id="sizeLabel">Tamaño de Canchas</label>
+									<!-- <label class="col-sm-4 control-label" id="sizeLabel">Provocó Tsunami</label> -->
+									<h4>Provocó Tsunami</h4>
 									<div class="col-sm-8 checkbox-filter">
-										<div class="col-sm-3">
+										<div class="col-sm-6">
 											<label class="checkbox-inline">
-												<input type="checkbox" id="sizeCheckbox1" value="option1"> Fútbol
+												<input type="checkbox" id="sizeCheckbox1" value="option1"> Sí
 											</label>
 										</div>
 										
-										<div class="col-sm-3">
+										<div class="col-sm-6">
 											<label class="checkbox-inline">
-												<input type="checkbox" id="sizeCheckbox2" value="option1"> Fútbolito
+												<input type="checkbox" id="sizeCheckbox2" value="option1"> No
 											</label>
 										</div>
-										
-										<div class="col-sm-3">
-											<label class="checkbox-inline">
-												<input type="checkbox" id="sizeCheckbox3" value="option1"> Baby Fútbol
-											</label>
-										</div>
-									</div>
 									
 								</div>
-								
-								<hr class="separator">
-								
-								<div class="form-group">
-									
-									<label class="col-sm-4 control-label" id="typeLabel">Tipos de Cancha</label>
-									<div class="col-sm-8 checkbox-filter">
-										<div class="col-sm-3">
-											<label class="checkbox-inline">
-												<input type="checkbox" id="typeCheckbox1" value=""> Pasto Natural
-											</label>
-										</div>
-										
-										<div class="col-sm-3">
-											<label class="checkbox-inline">
-												<input type="checkbox" id="typeCheckbox2" value=""> Pasto Sintetico
-											</label>
-										</div>
-										
-										<div class="col-sm-3">
-											<label class="checkbox-inline">
-												<input type="checkbox" id="typeCheckbox3" value=""> Carpeta
-											</label>
-										</div>
-									</div>
-								</div>
-								
-								<hr class="separator">
-								
-								<div class="form-group">
-									
-									<label class="col-sm-4 control-label" id="servicesLabel">Servicios</label>
-									<div class="col-sm-8 checkbox-filter">
-										<div class="col-sm-3">
-											<label class="checkbox-inline">
-												<input type="checkbox" id="serviceCheckbox1" value=""> Estacionamiento
-											</label>
-										</div>
-										
-										<div class="col-sm-3">
-											<label class="checkbox-inline">
-												<input type="checkbox" id="serviceCheckbox2" value=""> Camarines
-											</label>
-										</div>
-										
-										<div class="col-sm-3">
-											<label class="checkbox-inline">
-												<input type="checkbox" id="serviceCheckbox3" value=""> Luces
-											</label>
-										</div>
-									</div>
-									
-								</div>
+
+					<!-- 			<hr class="full-separator">
 								
 								<button class="btn btn-danger btn-block less-filters-btn" type="button">Menos Filtros</button>
 									
@@ -272,9 +235,9 @@
 					
 					<div class="announce-counter">
 							<button class="btn btn-primary more-filters-btn btn-block">Más Filtros</button>
-					</div>
+					</div> -->
 					
-					<hr class="separator">
+					<hr class="full-separator">
 					<div id="apply-filter-div">
 						<button class="btn btn-success btn-block" type="button">Aplicar Filtros</button>
 					</div>
@@ -288,52 +251,45 @@
 	
 	
 		<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.js"></script>
+		<script type="text/javascript" src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 		<script type="text/javascript" src="bootstrap-3.3.2/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
 		<script type="text/javascript" src="datetimepicker/jquery.datetimepicker.js"></script>
 		<script type="text/javascript" src="js/geolocation.js"></script>
 		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6pMpJjSW_OVXreXlA0vJ3pNfzH3lvpYs&signed_in=true&callback=initMap"></script>
+
 		<script>
 			//Iniciar Timepickers
-			$('#inputTimeT1').datetimepicker({
-				format: 'H:i',
-				datepicker: false,
-				allowTimes:[
-					'01:00', '08:00', '09:00', '10:00', '11:00', '12:00', 
-					'13:00', '14:00', '15:00', '16:00', '17:00', '18:00',
-					'19:00', '20:00', '21:00', '22:00', '23:00', '24:00'
-				]
-			});
-			
-			$('#inputTimeT2').datetimepicker({
-				format: 'H:i',
-				datepicker: false,
-				allowTimes:[
-					'01:00', '08:00', '09:00', '10:00', '11:00', '12:00', 
-					'13:00', '14:00', '15:00', '16:00', '17:00', '18:00',
-					'19:00', '20:00', '21:00', '22:00', '23:00', '24:00'
-				]
-			});
+			$('#fromDate').datetimepicker({
+		      pickTime: false
+		    });
+
+		    $('#toDate').datetimepicker({
+		      pickTime: false
+		    });
 			
 			//Cambiar value del Range
-			$("#inputRange").on('input', function(){
-				var val = $(this).val()
-				var finalValue;
-				
-				if(val < 100000){
-					finalValue = "$"+val;
-				} else{
-					finalValue = "+$100000";
-				}
-				//$("#range-value").html(finalValue);
-				$("#range-value").text(finalValue);
+			$(function() {
+				$( "#slider-range" ).slider({
+				range: true,
+				min: 0,
+				max: 10,
+				values: [ 0, 10 ],
+				step: 0.1,
+				slide: function( event, ui ) {
+					$( "#amount" ).val( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+					}
+				});
+				$( "#amount" ).val( "" + $( "#slider-range" ).slider( "values", 0 ) +
+				" - " + $( "#slider-range" ).slider( "values", 1 ) );
 			});
 			
 			//Slide de Filtros
-			$(".more-filters-btn, .less-filters-btn").click(function(){
-				$(".announce-counter").slideToggle();
-				$(".more-filters").slideToggle()
-			});
+			// $(".more-filters-btn, .less-filters-btn").click(function(){
+			// 	$(".announce-counter").slideToggle();
+			// 	$(".more-filters").slideToggle()
+			// });
 			
 		</script>
 	</body>
